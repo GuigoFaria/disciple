@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_pessoal_gui/pages/form_task.dart';
+
+import 'data/task_inherited.dart';
 import 'pages/home.dart';
 
 void main() {
@@ -15,7 +16,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.white,
       ),
-      home: FormTask(),
+      home: TaskInherited(
+        child: Home(),
+      ),
     );
   }
 }

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_pessoal_gui/components/task.dart';
+import 'package:projeto_pessoal_gui/data/task_inherited.dart';
 
 class FormTask extends StatefulWidget {
-  const FormTask({Key? key}) : super(key: key);
+  final BuildContext taskContext;
+
+  const FormTask({Key? key, required this.taskContext}) : super(key: key);
 
   @override
   _FormTaskState createState() => _FormTaskState();
@@ -79,17 +83,27 @@ class _FormTaskState extends State<FormTask> {
                       Padding(
                         padding: const EdgeInsets.all(48.0),
                         child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.cyan),
+                            ),
                             onPressed: () => {
                                   if (_formKey.currentState!.validate())
                                     {
-                                      print(taskNameController.text),
-                                      print(priorityController.text),
+                                      TaskInherited.of(widget.taskContext)
+                                          .addNewTask(
+                                        Task(
+                                          taskNameController.text,
+                                          int.parse(priorityController.text),
+                                        ),
+                                      ),
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(
                                           content: Text('Salvando novo hábito'),
                                         ),
                                       ),
+                                      Navigator.pop(context),
                                     }
                                 },
                             child: Text('Cadastrar hábito')),

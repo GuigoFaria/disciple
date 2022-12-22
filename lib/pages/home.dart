@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_pessoal_gui/components/task.dart';
+import 'package:projeto_pessoal_gui/data/task_inherited.dart';
+
+import 'package:projeto_pessoal_gui/pages/form_task.dart';
 
 class Home extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -10,13 +12,20 @@ class Home extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: ListView(children: [
-        Task('Tomar banho', 1),
-        Task('Ler a bíblia', 2),
-        Task('Estudar guitarra', 3),
-        Task('Acordar sem pegar o celular', 4),
-        Task('Estudar flutter', 5),
-      ]),
+      body: ListView(children: TaskInherited.of(context).taskList),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (newContext) => FormTask(
+                      taskContext: context,
+                    )),
+          );
+        },
+        child: const Icon(Icons.add),
+        backgroundColor: Colors.cyan,
+      ),
     );
   }
 }
