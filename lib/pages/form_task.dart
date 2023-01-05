@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_pessoal_gui/components/task.dart';
-import 'package:projeto_pessoal_gui/data/task_inherited.dart';
+import 'package:projeto_pessoal_gui/data/entities/task_entity.dart';
+import 'package:projeto_pessoal_gui/data/tasks_service.dart';
 
 class FormTask extends StatefulWidget {
   final BuildContext taskContext;
@@ -17,6 +17,7 @@ class _FormTaskState extends State<FormTask> {
   final priorityController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    TasksService service = TasksService();
     return Form(
       key: _formKey,
       child: Scaffold(
@@ -87,15 +88,14 @@ class _FormTaskState extends State<FormTask> {
                               backgroundColor:
                                   MaterialStateProperty.all(Colors.cyan),
                             ),
-                            onPressed: () => {
+                            onPressed: () async => {
                                   if (_formKey.currentState!.validate())
                                     {
-                                      TaskInherited.of(widget.taskContext)
-                                          .addNewTask(
-                                        Task(
+                                      await service.saveTask(
+                                        TaskEntity(
                                           taskNameController.text,
                                           int.parse(priorityController.text),
-                                        ),
+                                        ).toJson(),
                                       ),
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
